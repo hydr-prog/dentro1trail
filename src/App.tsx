@@ -1738,72 +1738,39 @@ export default function App() {
                       </button>
                     </div>
 
-                                    <div className="space-y-3">
-                  {activePatient.appointments.length === 0 ? (
-                     <div className="text-center py-8 text-gray-400 bg-gray-50 dark:bg-gray-700/30 rounded-xl border border-dashed border-gray-200 dark:border-gray-600">
-                         No visits recorded.
-                     </div>
-                  ) : (
-                     [...activePatient.appointments]
-                       .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                       .map(appt => (
-                        <div
-                          key={appt.id}
-                          className="flex flex-col sm:flex-row gap-4 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600 items-start sm:items-center"
-                        >
-                          <div className="flex-1">
-                              <div className="flex items-center gap-3 mb-1">
-                                  <span className="font-bold text-gray-800 dark:text-white">
-                                      {getLocalizedDate(parseISO(appt.date), 'full', currentLang)} at {formatTime12(appt.time)}
-                                  </span>
-                                  <span
-  className={`px-2 py-0.5 text-xs rounded uppercase font-bold ${
-      appt.status === 'completed' ? 'bg-green-100 text-green-700' : 
-      appt.status === 'cancelled' ? 'bg-red-100 text-red-700' : 
-      'bg-blue-100 text-blue-700'
-  }`}
->
-  {(t as Record<string, string | undefined>)[appt.status] ?? appt.status}
-</span>
-
-                              </div>
-
-                              <div className="text-sm text-gray-500 dark:text-gray-400">
-                                  {getTreatmentLabel(appt.treatmentType) || 'Checkup'} • {appt.duration || 30} min
-                                  {appt.sessionNumber && ` • Session ${appt.sessionNumber}`}
-                              </div>
-
-                              {appt.notes && (
-                                <div className="text-sm text-gray-400 mt-1 italic">
-                                  "{appt.notes}"
+                    <div className="space-y-3">
+                      {activePatient.appointments.length === 0 ? (
+                         <div className="text-center py-8 text-gray-400 bg-gray-50 dark:bg-gray-700/30 rounded-xl border border-dashed border-gray-200 dark:border-gray-600">
+                             No visits recorded.
+                         </div>
+                      ) : (
+                         [...activePatient.appointments].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(appt => (
+                          <div key={appt.id} className="flex flex-col sm:flex-row gap-4 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600 items-start sm:items-center">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-1">
+                                    <span className="font-bold text-gray-800 dark:text-white">
+                                        {getLocalizedDate(parseISO(appt.date), 'full', currentLang)} at {formatTime12(appt.time)}
+                                    </span>
+                                    <span className={`px-2 py-0.5 text-xs rounded uppercase font-bold ${
+                                        appt.status === 'completed' ? 'bg-green-100 text-green-700' : 
+                                        appt.status === 'cancelled' ? 'bg-red-100 text-red-700' : 
+                                        'bg-blue-100 text-blue-700'
+                                    }`}>{t[appt.status] || appt.status}</span>
                                 </div>
-                              )}
+                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                    {getTreatmentLabel(appt.treatmentType) || 'Checkup'} • {appt.duration || 30} min
+                                    {appt.sessionNumber && ` • Session ${appt.sessionNumber}`}
+                                </div>
+                                {appt.notes && <div className="text-sm text-gray-400 mt-1 italic">"{appt.notes}"</div>}
+                            </div>
+                            <div className="flex gap-2 self-end sm:self-center">
+                                <button onClick={() => { setSelectedAppointment(appt); setShowAppointmentModal(true); setAppointmentMode('existing'); }} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg"><Edit2 size={16} /></button>
+                                <button onClick={() => handleDeleteAppointment(activePatient.id, appt.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg"><Trash2 size={16} /></button>
+                            </div>
                           </div>
-
-                          <div className="flex gap-2 self-end sm:self-center">
-                              <button
-                                onClick={() => {
-                                  setSelectedAppointment(appt);
-                                  setShowAppointmentModal(true);
-                                  setAppointmentMode('existing');
-                                }}
-                                className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg"
-                              >
-                                <Edit2 size={16} />
-                              </button>
-
-                              <button
-                                onClick={() => handleDeleteAppointment(activePatient.id, appt.id)}
-                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
-                              >
-                                <Trash2 size={16} />
-                              </button>
-                          </div>
-                        </div>
-                      ))
-                  )}
-                </div>
-
+                        ))
+                      )}
+                    </div>
                   </div>
                 )}
                 
