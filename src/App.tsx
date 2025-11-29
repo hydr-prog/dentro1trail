@@ -1755,7 +1755,7 @@ export default function App() {
                                         appt.status === 'completed' ? 'bg-green-100 text-green-700' : 
                                         appt.status === 'cancelled' ? 'bg-red-100 text-red-700' : 
                                         'bg-blue-100 text-blue-700'
-                                    }`}>{t[appt.status] || appt.status}</span>
+                                    }`}>{(t as any)[appt.status] ?? appt.status}</span>
                                 </div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                     {getTreatmentLabel(appt.treatmentType) || 'Checkup'} • {appt.duration || 30} min
