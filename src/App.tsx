@@ -1757,14 +1757,15 @@ export default function App() {
                                       {getLocalizedDate(parseISO(appt.date), 'full', currentLang)} at {formatTime12(appt.time)}
                                   </span>
                                   <span
-                                    className={`px-2 py-0.5 text-xs rounded uppercase font-bold ${
-                                        appt.status === 'completed' ? 'bg-green-100 text-green-700' : 
-                                        appt.status === 'cancelled' ? 'bg-red-100 text-red-700' : 
-                                        'bg-blue-100 text-blue-700'
-                                    }`}
-                                  >
-                                    {t[appt.status] || appt.status}
-                                  </span>
+  className={`px-2 py-0.5 text-xs rounded uppercase font-bold ${
+      appt.status === 'completed' ? 'bg-green-100 text-green-700' : 
+      appt.status === 'cancelled' ? 'bg-red-100 text-red-700' : 
+      'bg-blue-100 text-blue-700'
+  }`}
+>
+  {(t as Record<string, string | undefined>)[appt.status] ?? appt.status}
+</span>
+
                               </div>
 
                               <div className="text-sm text-gray-500 dark:text-gray-400">
