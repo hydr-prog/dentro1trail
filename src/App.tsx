@@ -681,12 +681,18 @@ export default function App() {
   };
 
   const handleDeleteRx = (rxId: string) => {
-      if (!window.confirm("Are you sure you want to delete this prescription record?")) return;
-      const patient = data.patients.find(p => p.id === selectedPatientId);
-      if(patient) {
-          updatePatient(selectedPatientId, { prescriptions: patient.prescriptions.filter(r => r.id !== rxId) });
-      }
-  };
+  if (!window.confirm("Are you sure you want to delete this prescription record?")) return;
+
+  if (!selectedPatientId) return; // ← الحل الأساسي
+
+  const patient = data.patients.find(p => p.id === selectedPatientId);
+
+  if (patient) {
+    updatePatient(selectedPatientId, {
+      prescriptions: patient.prescriptions.filter(r => r.id !== rxId)
+    });
+  }
+};
 
   // New RCT & Session Handlers
   const handleAddRCT = (patientId: string, rct: Omit<RootCanalEntry, 'id'>) => {
